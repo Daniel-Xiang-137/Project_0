@@ -34,14 +34,14 @@ class user():
             self._admin = False
             #Check if username & password match in db. Adjust admin status to match
             self.cursor.execute("""
-                           SELECT username, admin
+                           SELECT admin
                            FROM Users
                            WHERE username=? AND password=?;""",
                         (self.username, self.password))
             rows = self.cursor.fetchall()
             if (rows):
                 print("Logging in...")
-                if (rows[0][1]):
+                if (rows[0][0]=="TRUE"):
                     print("Logging in as admin.")
                     self._admin = True
                 return True
@@ -134,6 +134,8 @@ class user():
                     return False
                 case _:
                     print("Invalild input. Please try again.")
+        else:
+            return False
         return True
     
     def print_users(self):
